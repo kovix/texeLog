@@ -1,4 +1,5 @@
 const path = require('path')
+const fs = require('fs')
 const mqtt = require('mqtt')
 const bunyan = require('bunyan')
 const RotatingFileStream = require('bunyan-rotating-file-stream')
@@ -10,6 +11,11 @@ const bformat = require('bunyan-format')
 const formatOut = bformat({ outputMode: 'short', levelInString: true })
 
 //init logger
+const basePath = path.resolve(__dirname, 'logs')
+if (!fs.existsSync(basePath)){
+  fs.mkdirSync(basePath);
+}
+
 const bunyanOpts = {
   name: 'app',
   streams: [
@@ -20,7 +26,7 @@ const bunyanOpts = {
     {
       type: 'raw',
       stream: new RotatingFileStream({
-        path: path.resolve(__dirname, 'logs/alarm.log'),
+        path: path.resolve(basePath, '/alarm.log'),
         period: '1d',
         totalFiles: 365,
         rotateExisting: false,
