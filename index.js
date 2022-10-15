@@ -26,7 +26,7 @@ const bunyanOpts = {
     {
       type: 'raw',
       stream: new RotatingFileStream({
-        path: path.resolve(basePath, '/alarm.log'),
+        path: `${basePath}/alarm.log`,
         period: '1d',
         totalFiles: 365,
         rotateExisting: false,
